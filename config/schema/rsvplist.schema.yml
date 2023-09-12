@@ -1,0 +1,11 @@
+rsvplist.setting:
+  type: config_object
+  label: RSVP List Content Type Settings
+  mapping:
+    Allowed_types:
+      type: sequence
+      label: Content types the RSVP From can display on
+      sequence:
+        type: string
+        label: Content type
+        

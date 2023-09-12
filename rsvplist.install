@@ -1,0 +1,75 @@
+<?php
+
+/**
+* @file 
+* Install, update and unistall functions for the rsvlist module.
+*/
+
+function rsvplist_schema(){
+    // Create a database table called 'rsvplist' with the following columns:
+    // 1) id [serial], 2) uid [int], 3) nid [int], 4) mail [varchar], 5) created [int]
+
+    $schema['rsvplist'] = [ // crea una tabla rsvplist con API SCHEMA de DRUPAL
+        // Crea Los campos de la tabla
+
+        'description' => 'Stores email, timestamp, nid and vid for an RSVP.', // describe la tabla (no está con t() pq va a la DB)
+        'fields' =>  [
+            'id' => [ // Crea el campo ID y le da sus propiedades
+                'description' => 'THe primary identifier for the record.',
+                'type' => 'serial', // Tipo SERIAL autoincrementa
+                'size' => 'small', // tiny / small / medium / normal / big
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ],
+            'uid' => [  // Crea campo User Id
+              'description' => 'The {node}.uid that added this RSVP.',
+              'type' => 'int',
+              'not null' => TRUE,
+              'default' => 0,
+           ],
+            'nid' =>[
+                'description' => 'The {node}.nid for this RSVP.',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'default' => 0,
+            ],
+            'mail' => [
+                'description' => 'User\'s email adress.',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => FALSE,
+                'default' => '',
+      ],
+            'created' => [
+                'description' => 'Timestamp for when RSVP was created.',
+                'type' => 'int',
+                'not null' => TRUE,
+                'default' => 0,
+        ],
+    ],    
+       'primary key' => ['id'],  
+       'indexes' => [
+       'node' => ['nid'],
+       'node_user' => ['nid', 'uid'],
+  ],
+ ];
+    // Create a database table named 'rsvplist_enabled' with the following feilds:
+    // 1) nid [int]
+    $schema['rsvplist_enabled'] = [
+        'description' => 'Tracks whether RSVP is enabled or not for a node.',
+         'fields' => [
+           'nid' =>[
+            'description' => 'The {node}.nid that has RSVPList enabled.',
+            'type' => 'int',
+            'unsigned' => TRUE,
+            'not null' => TRUE,
+            'default' => 0,
+         ],
+        ],
+    ];
+
+return $schema; // MUY IMPORTANTE, devolder el esquema con la información de la BBDD
+
+
+}
